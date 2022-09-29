@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Сергей Кобзев](https://up.htmlacademy.ru/javascript/27/user/96091).
-* Наставник: `Неизвестно`.
+* Наставник: [Rail Sakhaviev](https://htmlacademy.ru/profile/id1331891).
 
 ---
 
