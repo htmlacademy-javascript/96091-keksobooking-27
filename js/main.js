@@ -27,15 +27,6 @@ function getRandomPositiveFloat (a, b, digits = 1) {
 }
 getRandomPositiveFloat(0, 100, 3);
 
-// Функция, создающая новый массив целых чисел.
-function createNewArray (amountElements) {
-  const elements = [];
-  for (let i = 0; i < amountElements; i++) {
-    elements.push(i + 1);
-  }
-  return elements;
-}
-
 // Функция, перемешивающая заданный массив.
 function shuffleЕlements (array) {
   for(let i = 0; i < array.length; i++) {
@@ -48,8 +39,8 @@ function shuffleЕlements (array) {
 }
 
 // Функция, создающая массив из заданных значений.
-function createArrayOfOptions (...valueOptions) {
-  return createNewArray(NUMBER_OF_SIMILAR_ADS).map(
+function createArrayFromOptions (...valueOptions) {
+  return Array.from({ length: NUMBER_OF_SIMILAR_ADS }, (element, index) => index + 1).map(
     (element, index) => {
       if (valueOptions.length >= NUMBER_OF_SIMILAR_ADS - 1) {
         index = getRandomPositiveInteger(0, NUMBER_OF_SIMILAR_ADS - 1);
@@ -63,8 +54,8 @@ function createArrayOfOptions (...valueOptions) {
 }
 
 // Функция, создающая массив массивов из заданных значений.
-function creatArrayOfArrayOfOptions (...valueOptions) {
-  return createNewArray(NUMBER_OF_SIMILAR_ADS).map(
+function creatArrayOfArrayFromOptions (...valueOptions) {
+  return Array.from({ length: NUMBER_OF_SIMILAR_ADS }, (element, index) => index + 1).map(
     (element) => {
       const length = getRandomPositiveInteger(1, valueOptions.length);
       element = (shuffleЕlements(valueOptions)).slice(0, length);
@@ -75,34 +66,34 @@ function creatArrayOfArrayOfOptions (...valueOptions) {
 
 // Массивы полей объектов.
 
-const authorAvatars = shuffleЕlements(
-  createNewArray(NUMBER_OF_SIMILAR_ADS)
-).map(
-  (element) =>{
-    if (String(element).length < 2) {
-      element = `img/avatars/user0${String(element)}`;
-    } else {
-      element = `img/avatars/user${String(element)}`;
+const avatars = shuffleЕlements(
+  Array.from({ length: NUMBER_OF_SIMILAR_ADS }, (element, index) => index + 1).map(
+    (element) =>{
+      if (String(element).length < 2) {
+        element = `img/avatars/user0${String(element)}`;
+      } else {
+        element = `img/avatars/user${String(element)}`;
+      }
+      return element;
     }
-    return element;
-  }
+  )
 );
 
-const locationLat = createNewArray(NUMBER_OF_SIMILAR_ADS).map(
+const latLocations = Array.from({ length: NUMBER_OF_SIMILAR_ADS }, (element, index) => index + 1).map(
   (element) => {
     element = getRandomPositiveFloat(35.65000, 35.70000, 5);
     return element;
   }
 );
 
-const locationLng = createNewArray(NUMBER_OF_SIMILAR_ADS).map(
+const LngLocations = Array.from({ length: NUMBER_OF_SIMILAR_ADS }, (element, index) => index + 1).map(
   (element) => {
     element = getRandomPositiveFloat(139.70000, 139.80000, 5);
     return element;
   }
 );
 
-const offerTitle = createArrayOfOptions(
+const titles = createArrayFromOptions(
   'Маленькая квартирка рядом с парком',
   'Чёткая хата',
   'Небольшая лавочка в парке',
@@ -119,16 +110,16 @@ const offerTitle = createArrayOfOptions(
   'Небольшая бюджетная комната для студентов'
 );
 
-const offerAddress = [];
+const addresses = [];
 for (let i = 0; i < NUMBER_OF_SIMILAR_ADS; i++) {
-  offerAddress[i] = `${String(locationLat[i])} , ${String(locationLng[i])}`;
+  addresses[i] = `${String(latLocations[i])} , ${String(LngLocations[i])}`;
 }
 
-const offerPrice = createNewArray(NUMBER_OF_SIMILAR_ADS).map(
+const prices = Array.from({ length: NUMBER_OF_SIMILAR_ADS }, (element, index) => index + 1).map(
   () => getRandomPositiveInteger(3000, 110000)
 );
 
-const offerType = createArrayOfOptions(
+const types = createArrayFromOptions(
   'palace',
   'flat',
   'house',
@@ -136,15 +127,11 @@ const offerType = createArrayOfOptions(
   'hotel'
 );
 
-const offerRooms = createArrayOfOptions(1, 2, 3);
+const checkinTimes = createArrayFromOptions('12:00', '13:00', '14:00');
 
-const offerGuests = createArrayOfOptions(1, 2, 3);
+const checkoutTimes = createArrayFromOptions('12:00', '13:00', '14:00');
 
-const offerCheckin = createArrayOfOptions('12:00', '13:00', '14:00');
-
-const offerCheckout = createArrayOfOptions('12:00', '13:00', '14:00');
-
-const offerFeatures = creatArrayOfArrayOfOptions(
+const features = creatArrayOfArrayFromOptions(
   'wifi',
   'dishwasher',
   'parking',
@@ -153,7 +140,7 @@ const offerFeatures = creatArrayOfArrayOfOptions(
   'conditioner'
 );
 
-const offerDescription = createArrayOfOptions(
+const descriptions = createArrayFromOptions(
   'Хейтеров просьба не беспокоить.',
   'Комната в трёхкомнатной квартире, подойдёт молодым путешественникам.',
   'Квартира на первом этаже. Соседи тихие. Для всех, кто терпеть не может шума и суеты.',
@@ -167,7 +154,7 @@ const offerDescription = createArrayOfOptions(
   'Тут красиво, светло и уютно. Есть где разместиться компании из 5 человек. Кофе и печеньки бесплатно.'
 );
 
-const offerPhotos = creatArrayOfArrayOfOptions(
+const photos = creatArrayOfArrayFromOptions(
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'parkhttps://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpging'
@@ -178,24 +165,24 @@ const similarAds = [];
 for (let i = 0; i < NUMBER_OF_SIMILAR_ADS; i++) {
   similarAds[i] = {
     'author': {
-      'avatar': authorAvatars[i]
+      'avatar': avatars[i]
     },
     'offer': {
-      'title': offerTitle[i],
-      'address': offerAddress[i],
-      'price': offerPrice[i],
-      'type': offerType[i],
-      'rooms': offerRooms[i],
-      'guests': offerGuests[i],
-      'checkin': offerCheckin[i],
-      'checkout': offerCheckout[i],
-      'features': offerFeatures[i],
-      'description': offerDescription[i],
-      'photos': offerPhotos[i]
+      'title': titles[i],
+      'address': addresses[i],
+      'price': prices[i],
+      'type': types[i],
+      'rooms': getRandomPositiveInteger(1,3),
+      'guests': getRandomPositiveInteger(1,3),
+      'checkin': checkinTimes[i],
+      'checkout': checkoutTimes[i],
+      'features': features[i],
+      'description': descriptions[i],
+      'photos': photos[i]
     },
     'location': {
-      'lat': locationLat[i],
-      'lng': locationLng[i]
+      'lat': latLocations[i],
+      'lng': LngLocations[i]
     }
   };
 }
