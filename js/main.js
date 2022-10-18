@@ -93,7 +93,7 @@ const LngLocations = Array.from({ length: NUMBER_OF_SIMILAR_ADS }, (element, ind
   }
 );
 
-const titles = createArrayFromOptions(
+const titles = [
   'Маленькая квартирка рядом с парком',
   'Чёткая хата',
   'Небольшая лавочка в парке',
@@ -103,12 +103,8 @@ const titles = createArrayFromOptions(
   'Квартира студия в престижном районе',
   'Милое гнездышко для фанатов Анимэ',
   'Императорский дворец в центре Токио',
-  'Загородный дом для спокойного отдыха',
-  'Милейший чердачок',
-  'Хостел «Для друзей»',
-  'Отель-музей',
-  'Небольшая бюджетная комната для студентов'
-);
+  'Загородный дом для спокойного отдыха'
+];
 
 const addresses = [];
 for (let i = 0; i < NUMBER_OF_SIMILAR_ADS; i++) {
@@ -119,28 +115,35 @@ const prices = Array.from({ length: NUMBER_OF_SIMILAR_ADS }, (element, index) =>
   () => getRandomPositiveInteger(3000, 110000)
 );
 
-const types = createArrayFromOptions(
+const types = [
   'palace',
   'flat',
   'house',
   'bungalow ',
-  'hotel'
-);
+  'hotel',
+  'flat',
+  'house',
+  'palace',
+  'bungalow ',
+  'house'
+];
 
-const checkinTimes = createArrayFromOptions('12:00', '13:00', '14:00');
+const checkinTimes = ['12:00', '13:00', '14:00'];
 
-const checkoutTimes = createArrayFromOptions('12:00', '13:00', '14:00');
+const features = [
+  ['wifi', 'parking', 'washer', 'elevator', 'conditioner'],
+  ['wifi', 'dishwasher', 'elevator', 'conditioner'],
+  ['dishwasher', 'parking', 'washer', 'elevator'],
+  ['wifi', 'dishwasher', 'parking', 'elevator', 'conditioner'],
+  ['dishwasher', 'parking'],
+  ['dishwasher', 'parking', 'washer', 'conditioner'],
+  [ 'parking', 'washer', 'elevator'],
+  ['wifi', 'dishwasher', 'parking', 'washer'],
+  ['wifi', 'conditioner'],
+  ['dishwasher', 'parking', 'washer'],
+];
 
-const features = creatArrayOfArrayFromOptions(
-  'wifi',
-  'dishwasher',
-  'parking',
-  'washer',
-  'elevator',
-  'conditioner'
-);
-
-const descriptions = createArrayFromOptions(
+const descriptions = [
   'Хейтеров просьба не беспокоить.',
   'Комната в трёхкомнатной квартире, подойдёт молодым путешественникам.',
   'Квартира на первом этаже. Соседи тихие. Для всех, кто терпеть не может шума и суеты.',
@@ -150,14 +153,13 @@ const descriptions = createArrayFromOptions(
   'Отель для ценителей истории. Почуствуй себя героем из прошлого.',
   'У нас тут все ништяк. Ларек за углом. Шава 24 часа. Приезжайте! Интернетов нет!',
   'Великолепная квартира-студия в центре Токио. Подходит как туристам, там и бизнесменам. Квартира полностью укомплектована и имеет свежий ремонт.',
-  'Один из лучших хостелов для душевного общения. Ужинаем вместе и играем в «Мафию» по вечерам, вкусно готовим. Ежедневная уборка, бесплатный Wi-Fi, чистое постельное белье.',
-  'Тут красиво, светло и уютно. Есть где разместиться компании из 5 человек. Кофе и печеньки бесплатно.'
-);
+  'Один из лучших хостелов для душевного общения. Ужинаем вместе и играем в «Мафию» по вечерам, вкусно готовим. Ежедневная уборка, бесплатный Wi-Fi, чистое постельное белье.'
+];
 
 const photos = creatArrayOfArrayFromOptions(
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-  'parkhttps://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpging'
+  'parkhttps://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
 );
 
 // Массив из 10 сгенерированных объектов.
@@ -175,7 +177,7 @@ for (let i = 0; i < NUMBER_OF_SIMILAR_ADS; i++) {
       'rooms': getRandomPositiveInteger(1,3),
       'guests': getRandomPositiveInteger(1,3),
       'checkin': checkinTimes[i],
-      'checkout': checkoutTimes[i],
+      'checkout': checkinTimes[i],
       'features': features[i],
       'description': descriptions[i],
       'photos': photos[i]
