@@ -12,7 +12,6 @@ function getRandomPositiveInteger (a, b) {
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 }
-getRandomPositiveInteger(0, 100);
 
 // Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно.
 // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
@@ -25,7 +24,6 @@ function getRandomPositiveFloat (a, b, digits = 1) {
   const result = Math.random() * (upper - lower) + lower;
   return +result.toFixed(digits);
 }
-getRandomPositiveFloat(0, 100, 3);
 
 // Функция, перемешивающая заданный массив.
 function shuffleЕlements (array) {
@@ -36,32 +34,6 @@ function shuffleЕlements (array) {
     array[randomInteger] = tempValue;
   }
   return array;
-}
-
-// Функция, создающая массив из заданных значений.
-function createArrayFromOptions (...valueOptions) {
-  return Array.from({ length: NUMBER_OF_SIMILAR_ADS }, (element, index) => index + 1).map(
-    (element, index) => {
-      if (valueOptions.length >= NUMBER_OF_SIMILAR_ADS - 1) {
-        index = getRandomPositiveInteger(0, NUMBER_OF_SIMILAR_ADS - 1);
-      } else {
-        index = getRandomPositiveInteger(0, valueOptions.length - 1);
-      }
-      element = valueOptions[index];
-      return element;
-    }
-  );
-}
-
-// Функция, создающая массив массивов из заданных значений.
-function creatArrayOfArrayFromOptions (...valueOptions) {
-  return Array.from({ length: NUMBER_OF_SIMILAR_ADS }, (element, index) => index + 1).map(
-    (element) => {
-      const length = getRandomPositiveInteger(1, valueOptions.length);
-      element = (shuffleЕlements(valueOptions)).slice(0, length);
-      return element;
-    }
-  );
 }
 
 // Массивы полей объектов.
@@ -156,11 +128,48 @@ const descriptions = [
   'Один из лучших хостелов для душевного общения. Ужинаем вместе и играем в «Мафию» по вечерам, вкусно готовим. Ежедневная уборка, бесплатный Wi-Fi, чистое постельное белье.'
 ];
 
-const photos = creatArrayOfArrayFromOptions(
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-  'parkhttps://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
-);
+const photos = [
+  [
+    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+    'parkhttps://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
+  ],
+  [
+    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg'
+  ],
+  [
+    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+    'parkhttps://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
+  ],
+  [
+    'parkhttps://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
+  ],
+  [
+    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg'
+  ],
+  [
+    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+    'parkhttps://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
+  ],
+  [
+    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  ],
+  [
+    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+    'parkhttps://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
+  ],
+  [
+    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+    'parkhttps://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
+  ],
+  [
+    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg'
+  ],
+];
 
 // Массив из 10 сгенерированных объектов.
 const similarAds = [];
