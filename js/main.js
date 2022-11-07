@@ -1,3 +1,3 @@
-import {similarAds} from './data.js';
+import './data.js';
 import './popup.js';
-
+import './form.js';
