@@ -22,7 +22,6 @@ function getRandomPositiveFloat (a, b, digits = 1) {
   return +result.toFixed(digits);
 }
 
-// Функция, перемешивающая заданный массив.
 function shuffleЕlements (array) {
   for(let i = 0; i < array.length; i++) {
     const randomInteger = getRandomPositiveInteger(0, array.length - 1);
@@ -33,8 +32,13 @@ function shuffleЕlements (array) {
   return array;
 }
 
+function getRandomArrayElement(array) {
+  return array[getRandomPositiveInteger(0, array.length - 1)];
+}
+
 export {
   getRandomPositiveInteger,
   getRandomPositiveFloat,
-  shuffleЕlements
+  shuffleЕlements,
+  getRandomArrayElement
 };

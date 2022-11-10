@@ -1,40 +1,9 @@
 import {
   getRandomPositiveInteger,
   getRandomPositiveFloat,
-  shuffleЕlements
+  shuffleЕlements,
+  getRandomArrayElement
 } from './util.js';
-
-// Количество похожих объявлений неподалеку.
-const NUMBER_OF_SIMILAR_ADS = 10;
-
-// Массивы полей объектов.
-
-const avatars = shuffleЕlements(
-  Array.from({ length: NUMBER_OF_SIMILAR_ADS }, (element, index) => index + 1).map(
-    (element) =>{
-      if (String(element).length < 2) {
-        element = `img/avatars/user0${String(element)}.png`;
-      } else {
-        element = `img/avatars/user${String(element)}.png`;
-      }
-      return element;
-    }
-  )
-);
-
-const latLocations = Array.from({ length: NUMBER_OF_SIMILAR_ADS }, (element, index) => index + 1).map(
-  (element) => {
-    element = getRandomPositiveFloat(35.65000, 35.70000, 5);
-    return element;
-  }
-);
-
-const LngLocations = Array.from({ length: NUMBER_OF_SIMILAR_ADS }, (element, index) => index + 1).map(
-  (element) => {
-    element = getRandomPositiveFloat(139.70000, 139.80000, 5);
-    return element;
-  }
-);
 
 const titles = [
   'Маленькая квартирка рядом с парком',
@@ -49,52 +18,27 @@ const titles = [
   'Загородный дом для спокойного отдыха'
 ];
 
-const addresses = [];
-for (let i = 0; i < NUMBER_OF_SIMILAR_ADS; i++) {
-  addresses[i] = `${String(latLocations[i])} , ${String(LngLocations[i])}`;
-}
-
-const prices = Array.from({ length: NUMBER_OF_SIMILAR_ADS }, (element, index) => index + 1).map(
-  () => getRandomPositiveInteger(3000, 110000)
-);
-
 const types = [
   'palace',
   'flat',
   'house',
   'bungalow',
-  'hotel',
-  'flat',
-  'house',
-  'palace',
-  'bungalow',
-  'house'
+  'hotel'
 ];
 
 const checkinTimes = [
   '12:00',
   '13:00',
-  '14:00',
-  '12:00',
-  '13:00',
-  '14:00',
-  '12:00',
-  '13:00',
-  '14:00',
-  '12:00'
+  '14:00'
 ];
 
 const features = [
-  ['wifi', 'parking', 'washer', 'elevator', 'conditioner'],
-  ['wifi', 'dishwasher', 'elevator', 'conditioner'],
-  ['dishwasher', 'parking', 'washer', 'elevator'],
-  ['wifi', 'dishwasher', 'parking', 'elevator', 'conditioner'],
-  ['dishwasher', 'parking'],
-  ['dishwasher', 'parking', 'washer', 'conditioner'],
-  [ 'parking', 'washer', 'elevator'],
-  ['wifi', 'dishwasher', 'parking', 'washer'],
-  ['wifi', 'conditioner'],
-  ['dishwasher', 'parking', 'washer'],
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner'
 ];
 
 const descriptions = [
@@ -111,73 +55,42 @@ const descriptions = [
 ];
 
 const photos = [
-  [
-    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
-  ],
-  [
-    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
-    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg'
-  ],
-  [
-    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
-    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
-  ],
-  [
-    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
-  ],
-  [
-    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
-    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg'
-  ],
-  [
-    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
-    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
-  ],
-  [
-    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
-  ],
-  [
-    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
-    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
-  ],
-  [
-    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
-  ],
-  [
-    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
-    'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg'
-  ],
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
 ];
 
-// Массив из 10 сгенерированных объектов.
-const similarAds = [];
-for (let i = 0; i < NUMBER_OF_SIMILAR_ADS; i++) {
-  similarAds[i] = {
-    'author': {
-      'avatar': avatars[i]
-    },
-    'offer': {
-      'title': titles[i],
-      'address': addresses[i],
-      'price': prices[i],
-      'type': types[i],
-      'rooms': getRandomPositiveInteger(1,3),
-      'guests': getRandomPositiveInteger(1,3),
-      'checkin': checkinTimes[i],
-      'checkout': checkinTimes[i],
-      'features': features[i],
-      'description': descriptions[i],
-      'photos': photos[i]
-    },
-    'location': {
-      'lat': latLocations[i],
-      'lng': LngLocations[i]
-    }
-  };
+function generateOffers(count) {
+  const similarAds = [];
+
+  for (let i = 0; i < count; i++) {
+    const lat = getRandomPositiveFloat(35.65000, 35.70000, 5);
+    const lng = getRandomPositiveFloat(139.70000, 139.80000, 5);
+    similarAds[i] = {
+      'author': {
+        'avatar': `img/avatars/user${String(i + 1).padStart(2, '0')}.png`
+      },
+      'offer': {
+        'title': titles[i],
+        'address': `${lat} ${lng}`,
+        'price': getRandomPositiveInteger(3000, 110000),
+        'type': getRandomArrayElement(types),
+        'rooms': getRandomPositiveInteger(1, 3),
+        'guests': getRandomPositiveInteger(1, 3),
+        'checkin': getRandomArrayElement(checkinTimes),
+        'checkout': getRandomArrayElement(checkinTimes),
+        'features': shuffleЕlements(features).slice(0, getRandomPositiveInteger(1, features.length - 1)),
+        'description': descriptions[i],
+        'photos': shuffleЕlements(photos).slice(0, getRandomPositiveInteger(1, photos.length - 1))
+      },
+      'location': {
+        'lat': lat,
+        'lng': lng
+      }
+    };
+  }
+
+  return similarAds;
 }
 
-export {similarAds};
+export {generateOffers};
