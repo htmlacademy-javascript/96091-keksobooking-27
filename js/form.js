@@ -2,12 +2,24 @@ const adForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
 const roomNumber = document.querySelector('#room_number');
 const capacityGuests = document.querySelector('#capacity');
+const typeHouse = document.querySelector('#type');
+const price = document.querySelector('#price');
+const timeIn = document.querySelector('#timein');
+const timeOut = document.querySelector('#timeout');
 
 const roomsToGuests = {
   1: ['1'],
   2: ['1', '2'],
   3: ['1', '2', '3'],
   100: ['0']
+};
+
+const typeToPrice = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
 };
 
 function setInactiveState() {
@@ -88,8 +100,24 @@ function onRoomNumberChange() {
   pristine.validate(roomNumber);
 }
 
+function onTypeHouseChange() {
+  price.placeholder = typeToPrice[typeHouse.value];
+  price.min = typeToPrice[typeHouse.value];
+}
+
+function onTimeInChange() {
+  timeOut.value = timeIn.value;
+}
+
+function onTimeOutChange() {
+  timeIn.value = timeOut.value;
+}
+
 capacityGuests.addEventListener('change', onCapacityChange);
 roomNumber.addEventListener('change', onRoomNumberChange);
+typeHouse.addEventListener('change', onTypeHouseChange);
+timeIn.addEventListener('change', onTimeInChange);
+timeOut.addEventListener('change', onTimeOutChange);
 
 adForm.addEventListener('submit', (evt) => {
   const isValid = pristine.validate();
