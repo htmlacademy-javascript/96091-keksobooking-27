@@ -6,6 +6,7 @@ const typeHouse = document.querySelector('#type');
 const price = document.querySelector('#price');
 const timeIn = document.querySelector('#timein');
 const timeOut = document.querySelector('#timeout');
+const priceSlider = document.querySelector('.ad-form__slider');
 
 const roomsToGuests = {
   1: ['1'],
@@ -100,9 +101,42 @@ function onRoomNumberChange() {
   pristine.validate(roomNumber);
 }
 
+noUiSlider.create(priceSlider, {
+  range: {
+    min: typeToPrice[typeHouse.value],
+    max: 100000
+  },
+  start: price.placeholder,
+  step: 1,
+  connect: 'lower',
+  format: {
+    to: function (value) {
+      if (Number.isInteger(value)) {
+        return value.toFixed(0);
+      }
+      return value.toFixed(0);
+    },
+    from: function (value) {
+      return parseFloat(value);
+    },
+  },
+});
+
+priceSlider.noUiSlider.on('update', () => {
+  price.value = priceSlider.noUiSlider.get();
+});
+
 function onTypeHouseChange() {
   price.placeholder = typeToPrice[typeHouse.value];
   price.min = typeToPrice[typeHouse.value];
+
+  priceSlider.noUiSlider.updateOptions({
+    range: {
+      min: typeToPrice[typeHouse.value],
+      max: 100000
+    },
+    start: price.placeholder
+  });
 }
 
 function onTimeInChange() {
