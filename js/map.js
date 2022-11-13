@@ -26,8 +26,8 @@ const mainPinMarker = L.marker(
   }
 );
 
-function initMap(coordinate) {
-  map.setView(coordinate, 12);
+function initMap(coordinate, zoom, cb) {
+  map.setView(coordinate, zoom);
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
@@ -36,6 +36,7 @@ function initMap(coordinate) {
   ).addTo(map);
   mainPinMarker.setLatLng(coordinate);
   mainPinMarker.addTo(map);
+  cb();
 }
 
 function createPinMarkers(offers) {
@@ -63,9 +64,4 @@ function setCoordinateToForm(digits = 5) {
   });
 }
 
-function setOnMapLoad(cb) {
-  map.on('load', cb);
-}
-
-
-export {initMap, createPinMarkers, setCoordinateToForm, setOnMapLoad};
+export {initMap, createPinMarkers, setCoordinateToForm};
