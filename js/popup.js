@@ -18,17 +18,21 @@ function createPopup({author, offer}) {
   card.querySelector('.popup__type').textContent = houseType[offer.type];
   card.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   card.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
-  card.querySelectorAll('.popup__feature').forEach(
-    (featureItem) => {
+  if (offer.features) {
+    card.querySelectorAll('.popup__feature').forEach(
+      (featureItem) => {
 
-      const isContains = offer.features.some(
-        (offerFeature) => (featureItem.classList.contains(`popup__feature--${offerFeature}`))
-      );
-      if (!isContains) {
-        featureItem.remove();
+        const isContains = offer.features.some(
+          (offerFeature) => (featureItem.classList.contains(`popup__feature--${offerFeature}`))
+        );
+        if (!isContains) {
+          featureItem.remove();
+        }
       }
-    }
-  );
+    );
+  } else {
+    card.querySelector('.popup__feature').remove();
+  }
 
   if (offer.description) {
     card.querySelector('.popup__description').textContent = offer.description;

@@ -40,7 +40,7 @@ function initMap(coordinate, zoom, cb) {
 }
 
 function createPinMarkers(offers) {
-  offers.forEach(( offer) => {
+  offers.forEach((offer) => {
     const marker = L.marker(
       {
         lat: offer.location.lat,
