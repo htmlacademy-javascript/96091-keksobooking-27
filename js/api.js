@@ -5,11 +5,31 @@ const MESSAGE = 'Ошибка загрузки! Перезагрузите ст�
 
 
 function getOffers(count) {
-  return fetch('https://27.javascript.pages.academy/keksobooking/data')
+  fetch('https://27.javascript.pages.academy/keksobooking/data')
     .then((response) => response.json())
     .then((allOffers) => allOffers.slice(0, count))
     .then((offers) => createPinMarkers(offers))
     .catch(() => showAlert(MESSAGE, ALERT_SHOW_TIME));
 }
 
-export {getOffers};
+function sendOffer(body, onSuccess, onFail) {
+  fetch(
+    'https://27.javascript.pages.academy/keksobooking',
+    {
+      method: 'POST',
+      body
+    }
+  )
+    .then((response) => {
+      if (response.ok) {
+        onSuccess();
+      } else {
+        onFail();
+      }
+    })
+    .catch(() => {
+      onFail();
+    });
+}
+
+export {getOffers, sendOffer};

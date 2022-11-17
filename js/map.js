@@ -26,6 +26,17 @@ const mainPinMarker = L.marker(
   }
 );
 
+function resetMap(coordinate, zoom) {
+  map.setView(coordinate, zoom);
+  mainPinMarker.setLatLng(coordinate);
+}
+
+function setStartCoordinateToForm(coordinate) {
+  const addressFormItem = document.querySelector('#address');
+  addressFormItem.value = `${coordinate.lat}, ${coordinate.lng}`;
+}
+
+
 function initMap(coordinate, zoom, cb) {
   map.setView(coordinate, zoom);
   L.tileLayer(
@@ -54,7 +65,8 @@ function createPinMarkers(offers) {
   });
 }
 
-function setCoordinateToForm(digits = 5) {
+function setCoordinateToForm(coordinate, digits = 5) {
+  setStartCoordinateToForm(coordinate);
   mainPinMarker.on('move', (evt) => {
     const coord = evt.target.getLatLng();
     const lat = (coord.lat).toFixed(digits);
@@ -64,4 +76,4 @@ function setCoordinateToForm(digits = 5) {
   });
 }
 
-export {initMap, createPinMarkers, setCoordinateToForm};
+export {initMap, createPinMarkers, setCoordinateToForm, resetMap};

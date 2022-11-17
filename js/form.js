@@ -1,3 +1,6 @@
+import {sendOffer} from './api.js';
+import {resetMap} from './map.js';
+
 const adForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
 const roomNumber = document.querySelector('#room_number');
@@ -7,6 +10,8 @@ const price = document.querySelector('#price');
 const timeIn = document.querySelector('#timein');
 const timeOut = document.querySelector('#timeout');
 const priceSlider = document.querySelector('.ad-form__slider');
+const submitButton = document.querySelector('.ad-form__submit');
+const resetButton = document.querySelector('.ad-form__reset');
 
 const roomsToGuests = {
   1: ['1'],
@@ -147,17 +152,85 @@ function onTimeOutChange() {
   timeIn.value = timeOut.value;
 }
 
+function blockSubmitButton() {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикуется...';
+}
+
+function unblockSubmitButton() {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+}
+
 capacityGuests.addEventListener('change', onCapacityChange);
 roomNumber.addEventListener('change', onRoomNumberChange);
 typeHouse.addEventListener('change', onTypeHouseChange);
 timeIn.addEventListener('change', onTimeInChange);
 timeOut.addEventListener('change', onTimeOutChange);
 
-adForm.addEventListener('submit', (evt) => {
-  const isValid = pristine.validate();
-  if (!isValid) {
-    evt.preventDefault();
-  }
-});
+function showSuccessMessage() {
+  const successMessageElement = document.querySelector('#success')
+    .content.querySelector('.success');
+  document.body.append(successMessageElement);
+  hideMessage();
+}
 
-export {setActiveState, setInactiveState};
+function showErrorMessage() {
+  const errorMessageElement = document.querySelector('#error')
+    .content.querySelector('.error');
+  document.body.append(errorMessageElement);
+  hideMessage();
+}
+
+function hideMessage() {
+  const message = document.querySelector('.success') || document.querySelector('.error');
+  document.addEventListener('click', () => {
+    message.remove();
+  });
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      message.remove();
+    }
+  });
+  const errorButton = message.querySelector('.error__button');
+  if (errorButton) {
+    errorButton.addEventListener('keydown', () => {
+      message.remove();
+    });
+  }
+}
+
+function setFormSubmit(coordinate, zoom) {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      sendOffer(
+        new FormData(evt.target),
+        () => {
+          unblockSubmitButton();
+          adForm.reset();
+          resetMap(coordinate, zoom);
+          showSuccessMessage();
+        },
+        () => {
+          unblockSubmitButton();
+          showErrorMessage();
+        }
+      );
+    }
+  });
+}
+
+function onResetButton(coordinate, zoom) {
+  adForm.reset();
+  resetMap(coordinate, zoom);
+}
+
+function setResetButton() {
+  resetButton.addEventListener('click', onResetButton);
+  resetButton.addEventListener('keydown', onResetButton);
+}
+
+export {setActiveState, setInactiveState, setFormSubmit, setResetButton};
