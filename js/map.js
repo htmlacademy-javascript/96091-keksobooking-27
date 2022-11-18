@@ -26,8 +26,19 @@ const mainPinMarker = L.marker(
   }
 );
 
-function initMap(coordinate) {
-  map.setView(coordinate, 12);
+function resetMap(coordinate, zoom) {
+  map.setView(coordinate, zoom);
+  mainPinMarker.setLatLng(coordinate);
+}
+
+function setStartCoordinateToForm(coordinate) {
+  const addressFormItem = document.querySelector('#address');
+  addressFormItem.value = `${coordinate.lat}, ${coordinate.lng}`;
+}
+
+
+function initMap(coordinate, zoom, cb) {
+  map.setView(coordinate, zoom);
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
@@ -36,10 +47,11 @@ function initMap(coordinate) {
   ).addTo(map);
   mainPinMarker.setLatLng(coordinate);
   mainPinMarker.addTo(map);
+  cb();
 }
 
 function createPinMarkers(offers) {
-  offers.forEach(( offer) => {
+  offers.forEach((offer) => {
     const marker = L.marker(
       {
         lat: offer.location.lat,
@@ -53,7 +65,8 @@ function createPinMarkers(offers) {
   });
 }
 
-function setCoordinateToForm(digits = 5) {
+function setCoordinateToForm(coordinate, digits = 5) {
+  setStartCoordinateToForm(coordinate);
   mainPinMarker.on('move', (evt) => {
     const coord = evt.target.getLatLng();
     const lat = (coord.lat).toFixed(digits);
@@ -63,9 +76,4 @@ function setCoordinateToForm(digits = 5) {
   });
 }
 
-function setOnMapLoad(cb) {
-  map.on('load', cb);
-}
-
-
-export {initMap, createPinMarkers, setCoordinateToForm, setOnMapLoad};
+export {initMap, createPinMarkers, setCoordinateToForm, resetMap};
