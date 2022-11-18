@@ -169,7 +169,22 @@ typeHouse.addEventListener('change', onTypeHouseChange);
 timeIn.addEventListener('change', onTimeInChange);
 timeOut.addEventListener('change', onTimeOutChange);
 
-function setFormSubmit(coordinate, zoom) {
+function resetForm() {
+  adForm.reset();
+  resetMap();
+}
+
+function onResetButtonClick() {
+  resetForm();
+}
+
+function onResetButtonKeydown() {
+  resetForm();
+}
+
+function initForm() {
+  resetButton.addEventListener('click', onResetButtonClick);
+  resetButton.addEventListener('keydown', onResetButtonKeydown);
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
@@ -180,7 +195,7 @@ function setFormSubmit(coordinate, zoom) {
         () => {
           unblockSubmitButton();
           adForm.reset();
-          resetMap(coordinate, zoom);
+          resetMap();
           showSuccessMessage();
         },
         () => {
@@ -192,14 +207,4 @@ function setFormSubmit(coordinate, zoom) {
   });
 }
 
-function onResetButton(coordinate, zoom) {
-  adForm.reset();
-  resetMap(coordinate, zoom);
-}
-
-function setResetButton() {
-  resetButton.addEventListener('click', onResetButton);
-  resetButton.addEventListener('keydown', onResetButton);
-}
-
-export {setActiveState, setInactiveState, setFormSubmit, setResetButton};
+export {setActiveState, setInactiveState, initForm};
