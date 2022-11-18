@@ -36,6 +36,14 @@ function getRandomArrayElement(array) {
   return array[getRandomPositiveInteger(0, array.length - 1)];
 }
 
+function isEscapeKey(evt) {
+  return evt.key === 'Escape';
+}
+
+function isEnterKey(evt) {
+  return evt.key === 'Enter';
+}
+
 function showAlert(message, alertShowTime) {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '100';
@@ -62,5 +70,7 @@ export {
   getRandomPositiveFloat,
   shuffleЕlements,
   getRandomArrayElement,
-  showAlert
+  showAlert,
+  isEscapeKey,
+  isEnterKey
 };

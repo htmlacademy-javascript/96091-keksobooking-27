@@ -1,5 +1,6 @@
 import {sendOffer} from './api.js';
 import {resetMap} from './map.js';
+import {showSuccessMessage, showErrorMessage} from './message.js';
 
 const adForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
@@ -167,38 +168,6 @@ roomNumber.addEventListener('change', onRoomNumberChange);
 typeHouse.addEventListener('change', onTypeHouseChange);
 timeIn.addEventListener('change', onTimeInChange);
 timeOut.addEventListener('change', onTimeOutChange);
-
-function showSuccessMessage() {
-  const successMessageElement = document.querySelector('#success')
-    .content.querySelector('.success');
-  document.body.append(successMessageElement);
-  hideMessage();
-}
-
-function showErrorMessage() {
-  const errorMessageElement = document.querySelector('#error')
-    .content.querySelector('.error');
-  document.body.append(errorMessageElement);
-  hideMessage();
-}
-
-function hideMessage() {
-  const message = document.querySelector('.success') || document.querySelector('.error');
-  document.addEventListener('click', () => {
-    message.remove();
-  });
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      message.remove();
-    }
-  });
-  const errorButton = message.querySelector('.error__button');
-  if (errorButton) {
-    errorButton.addEventListener('keydown', () => {
-      message.remove();
-    });
-  }
-}
 
 function setFormSubmit(coordinate, zoom) {
   adForm.addEventListener('submit', (evt) => {
