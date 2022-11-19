@@ -29,14 +29,16 @@ const typeToPrice = {
   palace: 10000,
 };
 
-function setInactiveState() {
+function setInactiveForm() {
   adForm.classList.add('ad-form--disabled');
   adForm.querySelectorAll('fieldset').forEach(
     (field) => {
       field.disabled = true;
     }
   );
+}
 
+function setInactiveFilter() {
   mapFilters.classList.add('map__filters--disabled');
   mapFilters.querySelectorAll('select').forEach(
     (select) => {
@@ -46,14 +48,21 @@ function setInactiveState() {
   mapFilters.querySelector('fieldset').disabled = true;
 }
 
-function setActiveState() {
+function setInactiveState() {
+  setInactiveForm();
+  setInactiveFilter();
+}
+
+function setActiveForm() {
   adForm.classList.remove('ad-form--disabled');
   adForm.querySelectorAll('fieldset').forEach(
     (field) => {
       field.disabled = false;
     }
   );
+}
 
+function setActiveFilter() {
   mapFilters.classList.remove('map__filters--disabled');
   mapFilters.querySelectorAll('select').forEach(
     (select) => {
@@ -62,6 +71,10 @@ function setActiveState() {
   );
   mapFilters.querySelector('fieldset').disabled = false;
 }
+
+// Ненужная функция - потом нужно удалить!
+// function setActiveState() {
+// }
 
 function validateCapacity() {
   return roomsToGuests[roomNumber.value].includes(capacityGuests.value);
@@ -174,12 +187,18 @@ function resetForm() {
   resetMap();
 }
 
+function resetFilter() {
+  mapFilters.reset();
+}
+
 function onResetButtonClick() {
   resetForm();
+  resetFilter();
 }
 
 function onResetButtonKeydown() {
   resetForm();
+  resetFilter();
 }
 
 function initForm() {
@@ -194,8 +213,8 @@ function initForm() {
         new FormData(evt.target),
         () => {
           unblockSubmitButton();
-          adForm.reset();
-          resetMap();
+          resetForm();
+          resetFilter();
           showSuccessMessage();
         },
         () => {
@@ -207,4 +226,4 @@ function initForm() {
   });
 }
 
-export {setActiveState, setInactiveState, initForm};
+export {setInactiveState, setActiveForm, setActiveFilter, initForm};

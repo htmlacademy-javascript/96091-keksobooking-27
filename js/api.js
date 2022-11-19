@@ -1,4 +1,5 @@
 import {createPinMarkers} from './map.js';
+import {setActiveFilter} from './form.js';
 import {showAlert} from './util.js';
 const ALERT_SHOW_TIME = 5000;
 const MESSAGE = 'Ошибка загрузки! Перезагрузите страницу!';
@@ -9,6 +10,7 @@ function getOffers(count) {
     .then((response) => response.json())
     .then((allOffers) => allOffers.slice(0, count))
     .then((offers) => createPinMarkers(offers))
+    .then(() => setActiveFilter())
     .catch(() => showAlert(MESSAGE, ALERT_SHOW_TIME));
 }
 
