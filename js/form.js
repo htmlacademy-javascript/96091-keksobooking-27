@@ -1,6 +1,7 @@
 import {getOffers, sendOffer} from './api.js';
 import {resetMap} from './map.js';
 import {showSuccessMessage, showErrorMessage} from './message.js';
+import {resetPhoto} from './photo.js';
 
 const adForm = document.querySelector('.ad-form');
 const mapFilterForm = document.querySelector('.map__filters');
@@ -181,6 +182,7 @@ timeOut.addEventListener('change', onTimeOutChange);
 function resetForm() {
   adForm.reset();
   resetMap();
+  resetPhoto();
 }
 
 function resetFilter() {
