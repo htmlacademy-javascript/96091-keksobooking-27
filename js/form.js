@@ -1,9 +1,9 @@
-import {sendOffer} from './api.js';
+import {getOffers, sendOffer} from './api.js';
 import {resetMap} from './map.js';
 import {showSuccessMessage, showErrorMessage} from './message.js';
 
 const adForm = document.querySelector('.ad-form');
-const mapFilters = document.querySelector('.map__filters');
+const mapFilterForm = document.querySelector('.map__filters');
 const roomNumber = document.querySelector('#room_number');
 const capacityGuests = document.querySelector('#capacity');
 const typeHouse = document.querySelector('#type');
@@ -39,13 +39,13 @@ function setInactiveForm() {
 }
 
 function setInactiveFilter() {
-  mapFilters.classList.add('map__filters--disabled');
-  mapFilters.querySelectorAll('select').forEach(
+  mapFilterForm.classList.add('map__filters--disabled');
+  mapFilterForm.querySelectorAll('select').forEach(
     (select) => {
       select.disabled = true;
     }
   );
-  mapFilters.querySelector('fieldset').disabled = true;
+  mapFilterForm.querySelector('fieldset').disabled = true;
 }
 
 function setInactiveState() {
@@ -63,18 +63,14 @@ function setActiveForm() {
 }
 
 function setActiveFilter() {
-  mapFilters.classList.remove('map__filters--disabled');
-  mapFilters.querySelectorAll('select').forEach(
+  mapFilterForm.classList.remove('map__filters--disabled');
+  mapFilterForm.querySelectorAll('select').forEach(
     (select) => {
       select.disabled = false;
     }
   );
-  mapFilters.querySelector('fieldset').disabled = false;
+  mapFilterForm.querySelector('fieldset').disabled = false;
 }
-
-// Ненужная функция - потом нужно удалить!
-// function setActiveState() {
-// }
 
 function validateCapacity() {
   return roomsToGuests[roomNumber.value].includes(capacityGuests.value);
@@ -188,7 +184,8 @@ function resetForm() {
 }
 
 function resetFilter() {
-  mapFilters.reset();
+  mapFilterForm.reset();
+  getOffers();
 }
 
 function onResetButtonClick() {

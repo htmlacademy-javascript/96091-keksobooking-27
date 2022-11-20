@@ -65,6 +65,7 @@ function initMap(onMapLoad) {
 }
 
 function createPinMarkers(offers) {
+  markerGroup.clearLayers();
   offers.forEach((offer) => {
     const marker = L.marker(
       {

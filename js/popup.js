@@ -41,13 +41,15 @@ function createPopup({author, offer}) {
   }
 
   const photoContainer = card.querySelector('.popup__photos');
-  offer.photos.forEach(
-    (photo) => {
-      const photoItem = photoContainer.querySelector('.popup__photo').cloneNode(true);
-      photoItem.src = photo;
-      photoContainer.append(photoItem);
-    }
-  );
+  if (offer.photos) {
+    offer.photos.forEach(
+      (photo) => {
+        const photoItem = photoContainer.querySelector('.popup__photo').cloneNode(true);
+        photoItem.src = photo;
+        photoContainer.append(photoItem);
+      }
+    );
+  }
   photoContainer.querySelector('.popup__photo').remove();
   card.querySelector('.popup__avatar').src = author.avatar;
 

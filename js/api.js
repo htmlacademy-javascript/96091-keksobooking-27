@@ -1,15 +1,14 @@
-import {createPinMarkers} from './map.js';
-import {setActiveFilter} from './form.js';
 import {showAlert} from './util.js';
+import {setDefaultOffers} from './filter.js';
+import {setActiveFilter} from './form.js';
 const ALERT_SHOW_TIME = 5000;
 const MESSAGE = 'Ошибка загрузки! Перезагрузите страницу!';
 
 
-function getOffers(count) {
+function getOffers() {
   fetch('https://27.javascript.pages.academy/keksobooking/data')
     .then((response) => response.json())
-    .then((allOffers) => allOffers.slice(0, count))
-    .then((offers) => createPinMarkers(offers))
+    .then((allOffers) => setDefaultOffers(allOffers))
     .then(() => setActiveFilter())
     .catch(() => showAlert(MESSAGE, ALERT_SHOW_TIME));
 }
