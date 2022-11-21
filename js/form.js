@@ -1,8 +1,9 @@
-import {sendOffer} from './api.js';
+import {getOffers, sendOffer} from './api.js';
 import {resetMap} from './map.js';
+import {showSuccessMessage, showErrorMessage} from './message.js';
 
 const adForm = document.querySelector('.ad-form');
-const mapFilters = document.querySelector('.map__filters');
+const mapFilterForm = document.querySelector('.map__filters');
 const roomNumber = document.querySelector('#room_number');
 const capacityGuests = document.querySelector('#capacity');
 const typeHouse = document.querySelector('#type');
@@ -28,38 +29,47 @@ const typeToPrice = {
   palace: 10000,
 };
 
-function setInactiveState() {
+function setInactiveForm() {
   adForm.classList.add('ad-form--disabled');
   adForm.querySelectorAll('fieldset').forEach(
     (field) => {
       field.disabled = true;
     }
   );
+}
 
-  mapFilters.classList.add('map__filters--disabled');
-  mapFilters.querySelectorAll('select').forEach(
+function setInactiveFilter() {
+  mapFilterForm.classList.add('map__filters--disabled');
+  mapFilterForm.querySelectorAll('select').forEach(
     (select) => {
       select.disabled = true;
     }
   );
-  mapFilters.querySelector('fieldset').disabled = true;
+  mapFilterForm.querySelector('fieldset').disabled = true;
 }
 
-function setActiveState() {
+function setInactiveState() {
+  setInactiveForm();
+  setInactiveFilter();
+}
+
+function setActiveForm() {
   adForm.classList.remove('ad-form--disabled');
   adForm.querySelectorAll('fieldset').forEach(
     (field) => {
       field.disabled = false;
     }
   );
+}
 
-  mapFilters.classList.remove('map__filters--disabled');
-  mapFilters.querySelectorAll('select').forEach(
+function setActiveFilter() {
+  mapFilterForm.classList.remove('map__filters--disabled');
+  mapFilterForm.querySelectorAll('select').forEach(
     (select) => {
       select.disabled = false;
     }
   );
-  mapFilters.querySelector('fieldset').disabled = false;
+  mapFilterForm.querySelector('fieldset').disabled = false;
 }
 
 function validateCapacity() {
@@ -168,39 +178,29 @@ typeHouse.addEventListener('change', onTypeHouseChange);
 timeIn.addEventListener('change', onTimeInChange);
 timeOut.addEventListener('change', onTimeOutChange);
 
-function showSuccessMessage() {
-  const successMessageElement = document.querySelector('#success')
-    .content.querySelector('.success');
-  document.body.append(successMessageElement);
-  hideMessage();
+function resetForm() {
+  adForm.reset();
+  resetMap();
 }
 
-function showErrorMessage() {
-  const errorMessageElement = document.querySelector('#error')
-    .content.querySelector('.error');
-  document.body.append(errorMessageElement);
-  hideMessage();
+function resetFilter() {
+  mapFilterForm.reset();
+  getOffers();
 }
 
-function hideMessage() {
-  const message = document.querySelector('.success') || document.querySelector('.error');
-  document.addEventListener('click', () => {
-    message.remove();
-  });
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      message.remove();
-    }
-  });
-  const errorButton = message.querySelector('.error__button');
-  if (errorButton) {
-    errorButton.addEventListener('keydown', () => {
-      message.remove();
-    });
-  }
+function onResetButtonClick() {
+  resetForm();
+  resetFilter();
 }
 
-function setFormSubmit(coordinate, zoom) {
+function onResetButtonKeydown() {
+  resetForm();
+  resetFilter();
+}
+
+function initForm() {
+  resetButton.addEventListener('click', onResetButtonClick);
+  resetButton.addEventListener('keydown', onResetButtonKeydown);
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
@@ -210,8 +210,8 @@ function setFormSubmit(coordinate, zoom) {
         new FormData(evt.target),
         () => {
           unblockSubmitButton();
-          adForm.reset();
-          resetMap(coordinate, zoom);
+          resetForm();
+          resetFilter();
           showSuccessMessage();
         },
         () => {
@@ -223,14 +223,4 @@ function setFormSubmit(coordinate, zoom) {
   });
 }
 
-function onResetButton(coordinate, zoom) {
-  adForm.reset();
-  resetMap(coordinate, zoom);
-}
-
-function setResetButton() {
-  resetButton.addEventListener('click', onResetButton);
-  resetButton.addEventListener('keydown', onResetButton);
-}
-
-export {setActiveState, setInactiveState, setFormSubmit, setResetButton};
+export {setInactiveState, setActiveForm, setActiveFilter, initForm};

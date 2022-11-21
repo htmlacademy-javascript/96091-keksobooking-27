@@ -1,5 +1,12 @@
 import {createPopup} from './popup.js';
 
+const defaultCoordinate = {
+  lat: 35.66023,
+  lng: 139.73007
+};
+const ZOOM_LEVEL = 12;
+const FUNCTION_DIGITS = 5;
+
 const map = L.map('map-canvas');
 const markerGroup = L.layerGroup().addTo(map);
 
@@ -26,31 +33,39 @@ const mainPinMarker = L.marker(
   }
 );
 
-function resetMap(coordinate, zoom) {
-  map.setView(coordinate, zoom);
-  mainPinMarker.setLatLng(coordinate);
+function resetMap() {
+  map.setView(defaultCoordinate, ZOOM_LEVEL);
+  mainPinMarker.setLatLng(defaultCoordinate);
+  map.closePopup();
 }
 
-function setStartCoordinateToForm(coordinate) {
+function setDefaultCoordinateToForm() {
   const addressFormItem = document.querySelector('#address');
-  addressFormItem.value = `${coordinate.lat}, ${coordinate.lng}`;
+  addressFormItem.value = `${defaultCoordinate.lat}, ${defaultCoordinate.lng}`;
 }
 
 
-function initMap(coordinate, zoom, cb) {
-  map.setView(coordinate, zoom);
+function initMap(onMapLoad) {
+  map.on('load', onMapLoad).setView(defaultCoordinate, ZOOM_LEVEL);
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     },
   ).addTo(map);
-  mainPinMarker.setLatLng(coordinate);
+  mainPinMarker.setLatLng(defaultCoordinate);
   mainPinMarker.addTo(map);
-  cb();
+  mainPinMarker.on('move', (evt) => {
+    const coordinates = evt.target.getLatLng();
+    const lat = coordinates.lat.toFixed(FUNCTION_DIGITS);
+    const lng = coordinates.lng.toFixed(FUNCTION_DIGITS);
+    const addressFormItem = document.querySelector('#address');
+    addressFormItem.value = `${lat}, ${lng}`;
+  });
 }
 
 function createPinMarkers(offers) {
+  markerGroup.clearLayers();
   offers.forEach((offer) => {
     const marker = L.marker(
       {
@@ -65,15 +80,4 @@ function createPinMarkers(offers) {
   });
 }
 
-function setCoordinateToForm(coordinate, digits = 5) {
-  setStartCoordinateToForm(coordinate);
-  mainPinMarker.on('move', (evt) => {
-    const coord = evt.target.getLatLng();
-    const lat = (coord.lat).toFixed(digits);
-    const lng = (coord.lng).toFixed(digits);
-    const addressFormItem = document.querySelector('#address');
-    addressFormItem.value = `${lat}, ${lng}`;
-  });
-}
-
-export {initMap, createPinMarkers, setCoordinateToForm, resetMap};
+export {initMap, createPinMarkers, setDefaultCoordinateToForm, resetMap};
