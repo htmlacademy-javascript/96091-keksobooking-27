@@ -1,23 +1,23 @@
 import {isEscapeKey, isEnterKey} from './util.js';
 
-function showSuccessMessage() {
+const onSuccessMessageOutsideClick = () => {
+  closeSuccessMessage();
+};
+
+const onSuccessMessageEscapeKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeSuccessMessage();
+  }
+};
+
+const showSuccessMessage = () => {
   const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
   const successMessage = successMessageTemplate.cloneNode(true);
   document.body.append(successMessage);
   document.addEventListener('click', onSuccessMessageOutsideClick);
   document.addEventListener('keydown', onSuccessMessageEscapeKeydown);
-}
-
-function onSuccessMessageOutsideClick () {
-  closeSuccessMessage();
-}
-
-function onSuccessMessageEscapeKeydown(evt) {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    closeSuccessMessage();
-  }
-}
+};
 
 function closeSuccessMessage() {
   document.removeEventListener('click', onSuccessMessageOutsideClick);
@@ -25,32 +25,33 @@ function closeSuccessMessage() {
   document.querySelector('.success').remove();
 }
 
-function showErrorMessage() {
+const onErrorMessageOutsideClick = () => {
+  closeErrorMessage();
+};
+
+const onErrorMessageEscapeKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeErrorMessage();
+  }
+};
+
+const onErrorMessageButtonKeydown = (evt) => {
+  if (isEnterKey(evt)) {
+    evt.preventDefault();
+    closeErrorMessage();
+  }
+};
+
+const showErrorMessage = () => {
   const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
   const errorMessage = errorMessageTemplate.cloneNode(true);
   document.body.append(errorMessage);
   document.addEventListener('click', onErrorMessageOutsideClick);
   document.addEventListener('keydown', onErrorMessageEscapeKeydown);
   document.addEventListener('keydown', onErrorMessageButtonKeydown);
-}
+};
 
-function onErrorMessageOutsideClick () {
-  closeErrorMessage();
-}
-
-function onErrorMessageEscapeKeydown(evt) {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    closeErrorMessage();
-  }
-}
-
-function onErrorMessageButtonKeydown (evt) {
-  if (isEnterKey(evt)) {
-    evt.preventDefault();
-    closeErrorMessage();
-  }
-}
 
 function closeErrorMessage() {
   document.removeEventListener('click', onErrorMessageOutsideClick);

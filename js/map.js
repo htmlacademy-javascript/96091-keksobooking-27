@@ -6,20 +6,24 @@ const defaultCoordinate = {
 };
 const ZOOM_LEVEL = 12;
 const FUNCTION_DIGITS = 5;
+const ICON_SIZES = [40, 40];
+const ICON_TOUCHPOINTS = [20, 40];
+const MAIN_ICON_SIZES = [52, 52];
+const MAIN_ICON_TOUCHPOINTS = [26, 52];
 
 const map = L.map('map-canvas');
 const markerGroup = L.layerGroup().addTo(map);
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: MAIN_ICON_SIZES,
+  iconAnchor: MAIN_ICON_TOUCHPOINTS,
 });
 
 const pinIcon = L.icon({
   iconUrl: './img/pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: ICON_SIZES,
+  iconAnchor: ICON_TOUCHPOINTS,
 });
 
 const mainPinMarker = L.marker(
@@ -33,19 +37,19 @@ const mainPinMarker = L.marker(
   }
 );
 
-function resetMap() {
+const resetMap = () => {
   map.setView(defaultCoordinate, ZOOM_LEVEL);
   mainPinMarker.setLatLng(defaultCoordinate);
   map.closePopup();
-}
+};
 
-function setDefaultCoordinateToForm() {
+const setDefaultCoordinateToForm = () => {
   const addressFormItem = document.querySelector('#address');
   addressFormItem.value = `${defaultCoordinate.lat}, ${defaultCoordinate.lng}`;
-}
+};
 
 
-function initMap(onMapLoad) {
+const initMap = (onMapLoad) => {
   map.on('load', onMapLoad).setView(defaultCoordinate, ZOOM_LEVEL);
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -62,9 +66,9 @@ function initMap(onMapLoad) {
     const addressFormItem = document.querySelector('#address');
     addressFormItem.value = `${lat}, ${lng}`;
   });
-}
+};
 
-function createPinMarkers(offers) {
+const createPinMarkers = (offers) => {
   markerGroup.clearLayers();
   offers.forEach((offer) => {
     const marker = L.marker(
@@ -78,6 +82,6 @@ function createPinMarkers(offers) {
     );
     marker.addTo(markerGroup).bindPopup(createPopup(offer));
   });
-}
+};
 
 export {initMap, createPinMarkers, setDefaultCoordinateToForm, resetMap};

@@ -1,32 +1,31 @@
-
 const avatarInput = document.querySelector('#avatar');
 const avatar = document.querySelector('.ad-form-header__preview img');
 const imageInput = document.querySelector('#images');
 const imageContainer = document.querySelector('.ad-form__photo');
 const DEAFAULT_AVATAR = 'img/muffin-grey.svg';
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
-function resetPhoto() {
+const resetPhoto = () => {
   avatar.src = DEAFAULT_AVATAR;
   imageContainer.innerHTML = '';
-}
+};
 
-function isImage(file) {
-  const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+const isImage = (file) => {
   const fileName = file.name.toLowerCase();
   return FILE_TYPES.some((it) => fileName.endsWith(it));
-}
+};
 
-function onChooseAvatar() {
+const onChooseAvatar = () => {
   const avatarFile = avatarInput.files[0];
 
   if (isImage(avatarFile)) {
     avatar.src = URL.createObjectURL(avatarFile);
   }
-}
+};
 
 avatarInput.addEventListener('change', onChooseAvatar);
 
-function onChooseImage() {
+const onChooseImage = () => {
   const imageFile = imageInput.files[0];
 
   if (isImage(imageFile)) {
@@ -37,7 +36,7 @@ function onChooseImage() {
     imageContainer.innerHTML = '';
     imageContainer.append(image);
   }
-}
+};
 
 imageInput.addEventListener('change', onChooseImage);
 
