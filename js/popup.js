@@ -10,7 +10,7 @@ const houseType = {
   hotel: 'Отель'
 };
 
-function createPopup({author, offer}) {
+const createPopup = ({author, offer}) => {
   const card = cardTemplate.cloneNode(true);
   card.querySelector('.popup__title').textContent = offer.title;
   card.querySelector('.popup__text--address').textContent = offer.address;
@@ -54,6 +54,6 @@ function createPopup({author, offer}) {
   card.querySelector('.popup__avatar').src = author.avatar;
 
   return card;
-}
+};
 
 export {createPopup};

@@ -1,18 +1,18 @@
 // Функция взята из интернета и доработана
 // Источник - https://www.freecodecamp.org/news/javascript-debounce-example
 
-function debounce (callback, timeoutDelay = 500) {
+const debounce = (callback, timeoutDelay = 500) => {
   let timeoutId;
 
   return (...rest) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
-}
+};
 
 // Функция, возвращающая случайное целое число из переданного диапазона включительно.
 // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
-function getRandomPositiveInteger (a, b) {
+const getRandomPositiveInteger = (a, b) => {
   if (a < 0 || b < 0) {
     return NaN;
   }
@@ -20,11 +20,11 @@ function getRandomPositiveInteger (a, b) {
   const upper = Math.floor(Math.max(a, b));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
-}
+};
 
 // Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно.
 // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
-function getRandomPositiveFloat (a, b, digits = 1) {
+const getRandomPositiveFloat = (a, b, digits = 1) => {
   if (a < 0 || b < 0 || digits < 0) {
     return NaN;
   }
@@ -32,9 +32,9 @@ function getRandomPositiveFloat (a, b, digits = 1) {
   const upper = Math.max(a, b);
   const result = Math.random() * (upper - lower) + lower;
   return +result.toFixed(digits);
-}
+};
 
-function shuffleЕlements (array) {
+const shuffleЕlements = (array) => {
   for(let i = 0; i < array.length; i++) {
     const randomInteger = getRandomPositiveInteger(0, array.length - 1);
     const tempValue = array[i];
@@ -42,21 +42,15 @@ function shuffleЕlements (array) {
     array[randomInteger] = tempValue;
   }
   return array;
-}
+};
 
-function getRandomArrayElement(array) {
-  return array[getRandomPositiveInteger(0, array.length - 1)];
-}
+const getRandomArrayElement = (array) => array[getRandomPositiveInteger(0, array.length - 1)];
 
-function isEscapeKey(evt) {
-  return evt.key === 'Escape';
-}
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
-function isEnterKey(evt) {
-  return evt.key === 'Enter';
-}
+const isEnterKey = (evt) => evt.key === 'Enter';
 
-function showAlert(message, alertShowTime) {
+const showAlert = (message, alertShowTime) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '100';
   alertContainer.style.position = 'absolute';
@@ -75,7 +69,7 @@ function showAlert(message, alertShowTime) {
   setTimeout(() => {
     alertContainer.remove();
   }, alertShowTime);
-}
+};
 
 export {
   getRandomPositiveInteger,

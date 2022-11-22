@@ -15,6 +15,8 @@ const priceSlider = document.querySelector('.ad-form__slider');
 const submitButton = document.querySelector('.ad-form__submit');
 const resetButton = document.querySelector('.ad-form__reset');
 
+const MAX_PRICE = 100000;
+
 const roomsToGuests = {
   1: ['1'],
   2: ['1', '2'],
@@ -30,16 +32,16 @@ const typeToPrice = {
   palace: 10000,
 };
 
-function setInactiveForm() {
+const setInactiveForm = () => {
   adForm.classList.add('ad-form--disabled');
   adForm.querySelectorAll('fieldset').forEach(
     (field) => {
       field.disabled = true;
     }
   );
-}
+};
 
-function setInactiveFilter() {
+const setInactiveFilter = () => {
   mapFilterForm.classList.add('map__filters--disabled');
   mapFilterForm.querySelectorAll('select').forEach(
     (select) => {
@@ -47,23 +49,23 @@ function setInactiveFilter() {
     }
   );
   mapFilterForm.querySelector('fieldset').disabled = true;
-}
+};
 
-function setInactiveState() {
+const setInactiveState = () => {
   setInactiveForm();
   setInactiveFilter();
-}
+};
 
-function setActiveForm() {
+const setActiveForm = () => {
   adForm.classList.remove('ad-form--disabled');
   adForm.querySelectorAll('fieldset').forEach(
     (field) => {
       field.disabled = false;
     }
   );
-}
+};
 
-function setActiveFilter() {
+const setActiveFilter = () => {
   mapFilterForm.classList.remove('map__filters--disabled');
   mapFilterForm.querySelectorAll('select').forEach(
     (select) => {
@@ -71,19 +73,13 @@ function setActiveFilter() {
     }
   );
   mapFilterForm.querySelector('fieldset').disabled = false;
-}
+};
 
-function validateCapacity() {
-  return roomsToGuests[roomNumber.value].includes(capacityGuests.value);
-}
+const validateCapacity = () => roomsToGuests[roomNumber.value].includes(capacityGuests.value);
 
-function getCapacityErrorMessage() {
-  return 'Количество гостей не соответствует вместимости комнаты!';
-}
+const getCapacityErrorMessage = () => 'Количество гостей не соответствует вместимости комнаты!';
 
-function getRoomNumberErrorMessage() {
-  return 'Количество комнат не подходит!';
-}
+const getRoomNumberErrorMessage = () => 'Количество комнат не подходит!';
 
 const pristine = new Pristine(
   adForm,
@@ -107,34 +103,32 @@ pristine.addValidator(
   getRoomNumberErrorMessage
 );
 
-function onCapacityChange() {
+const onCapacityChange = () => {
   pristine.validate(capacityGuests);
   pristine.validate(roomNumber);
-}
+};
 
-function onRoomNumberChange() {
+const onRoomNumberChange = () => {
   pristine.validate(capacityGuests);
   pristine.validate(roomNumber);
-}
+};
 
 noUiSlider.create(priceSlider, {
   range: {
     min: typeToPrice[typeHouse.value],
-    max: 100000
+    max: MAX_PRICE
   },
   start: price.placeholder,
   step: 1,
   connect: 'lower',
   format: {
-    to: function (value) {
+    to: (value) => {
       if (Number.isInteger(value)) {
         return value.toFixed(0);
       }
       return value.toFixed(0);
     },
-    from: function (value) {
-      return parseFloat(value);
-    },
+    from: (value) => parseFloat(value),
   },
 });
 
@@ -142,36 +136,36 @@ priceSlider.noUiSlider.on('update', () => {
   price.value = priceSlider.noUiSlider.get();
 });
 
-function onTypeHouseChange() {
+const onTypeHouseChange = () => {
   price.placeholder = typeToPrice[typeHouse.value];
   price.min = typeToPrice[typeHouse.value];
 
   priceSlider.noUiSlider.updateOptions({
     range: {
       min: typeToPrice[typeHouse.value],
-      max: 100000
+      max: MAX_PRICE
     },
     start: price.placeholder
   });
-}
+};
 
-function onTimeInChange() {
+const onTimeInChange = () => {
   timeOut.value = timeIn.value;
-}
+};
 
-function onTimeOutChange() {
+const onTimeOutChange = () => {
   timeIn.value = timeOut.value;
-}
+};
 
-function blockSubmitButton() {
+const blockSubmitButton = () => {
   submitButton.disabled = true;
   submitButton.textContent = 'Публикуется...';
-}
+};
 
-function unblockSubmitButton() {
+const unblockSubmitButton = () => {
   submitButton.disabled = false;
   submitButton.textContent = 'Опубликовать';
-}
+};
 
 capacityGuests.addEventListener('change', onCapacityChange);
 roomNumber.addEventListener('change', onRoomNumberChange);
@@ -179,28 +173,28 @@ typeHouse.addEventListener('change', onTypeHouseChange);
 timeIn.addEventListener('change', onTimeInChange);
 timeOut.addEventListener('change', onTimeOutChange);
 
-function resetForm() {
+const resetForm = () => {
   adForm.reset();
   resetMap();
   resetPhoto();
-}
+};
 
-function resetFilter() {
+const resetFilter = () => {
   mapFilterForm.reset();
   getOffers();
-}
+};
 
-function onResetButtonClick() {
+const onResetButtonClick = () => {
   resetForm();
   resetFilter();
-}
+};
 
-function onResetButtonKeydown() {
+const onResetButtonKeydown = () => {
   resetForm();
   resetFilter();
-}
+};
 
-function initForm() {
+const initForm = () => {
   resetButton.addEventListener('click', onResetButtonClick);
   resetButton.addEventListener('keydown', onResetButtonKeydown);
   adForm.addEventListener('submit', (evt) => {
@@ -223,6 +217,6 @@ function initForm() {
       );
     }
   });
-}
+};
 
 export {setInactiveState, setActiveForm, setActiveFilter, initForm};

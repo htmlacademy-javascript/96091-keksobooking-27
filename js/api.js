@@ -7,15 +7,15 @@ const ALERT_SHOW_TIME = 5000;
 const MESSAGE = 'Ошибка загрузки! Перезагрузите страницу!';
 
 
-function getOffers() {
+const getOffers = () => {
   fetch(URL_FOR_REQUEST)
     .then((response) => response.json())
     .then((allOffers) => setDefaultOffers(allOffers))
     .then(() => setActiveFilter())
     .catch(() => showAlert(MESSAGE, ALERT_SHOW_TIME));
-}
+};
 
-function sendOffer(body, onSuccess, onFail) {
+const sendOffer = (body, onSuccess, onFail) => {
   fetch(
     URL_FOR_SEND,
     {
@@ -33,6 +33,6 @@ function sendOffer(body, onSuccess, onFail) {
     .catch(() => {
       onFail();
     });
-}
+};
 
 export {getOffers, sendOffer};
